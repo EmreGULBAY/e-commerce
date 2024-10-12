@@ -19,6 +19,7 @@ export const createApp = () => {
     const v1RouterObj = v1Router();
     app.use(bodyParser.json());
     app.post("/register", userController.register);
+    app.post("/login", userController.login);
     app.use("/v1", extractTokenMiddleware, verifyTokenMiddleware, v1RouterObj);
 
     app.get("*", (req: Request, res: Response) => {

@@ -1,3 +1,4 @@
+import { createHash } from "crypto";
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
@@ -40,5 +41,17 @@ export const verifyTokenMiddleware = (
   } catch (error) {
     console.error("Token verification failed:", error);
     res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+export const comparePassword = async (
+  hashedPassword: string,
+  password: string
+) => {
+  try {
+    const newHashedPassword = createHash("md5").update(password).digest("hex");
+    return newHashedPassword === hashedPassword;
+  } catch (e) {
+    throw e;
   }
 };

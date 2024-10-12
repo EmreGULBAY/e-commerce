@@ -4,13 +4,15 @@ import {
   Column,
   BeforeInsert,
   BeforeUpdate,
+  PrimaryColumn,
 } from "typeorm";
 import { createHash } from "crypto";
+import { v4 as uuidv4 } from "uuid";
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
-  id!: number;
+  @PrimaryColumn("uuid")
+  id!: string;
 
   @Column()
   username!: string;
@@ -33,5 +35,10 @@ export class User {
     if (this.password) {
       this.password = createHash("md5").update(this.password).digest("hex");
     }
+  }
+
+  @BeforeInsert()
+  generateId() {
+    this.id = uuidv4();
   }
 }

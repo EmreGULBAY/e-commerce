@@ -26,9 +26,11 @@
     "ts-node": "^10.9.2",
     "tsyringe": "^4.8.0",
     "typeorm": "^0.3.20",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@types/jsonwebtoken": "^9.0.6"
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/uuid": "^10.0.0"
   }
 }

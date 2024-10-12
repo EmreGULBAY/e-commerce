@@ -23,9 +23,26 @@ export class UserController {
         password,
         ownedShopIds: ownedShopIds || [],
       });
-      res.status(200).json({ message: "User registered successfully" });
+      res.status(200).json({ success: true });
     } catch (e) {
-      res.send("Error registering user");
+      res.status(500).send("Error registering user");
+    }
+  };
+
+  login = async (req: Request, res: Response) => {
+    try {
+      const { username, password } = req.body;
+      if (!username || !password) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+      const token = await this.userService.login({ username, password });
+
+      res.status(200).json({
+        success: true,
+        token,
+      });
+    } catch (e) {
+      res.status(500).send("Error logging in");
     }
   };
 }
