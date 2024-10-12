@@ -5,12 +5,16 @@ import {
   extractTokenMiddleware,
   verifyTokenMiddleware,
 } from "./Helpers/AuthHelpers";
-import { userController } from "./Interfaces/Http/Controllers/UserController";
+import { AppDataSource } from "./Infrastructure/Database/Config/Config";
+import { container } from "tsyringe";
+import { UserController } from "./Interfaces/Http/Controllers/UserController";
 
 export const createApp = () => {
   try {
-    
     const app = express();
+
+    container.registerInstance("DataSource", AppDataSource);
+    const userController = container.resolve(UserController);
 
     const v1RouterObj = v1Router();
     app.use(bodyParser.json());

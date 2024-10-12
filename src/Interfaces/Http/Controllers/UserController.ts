@@ -2,15 +2,13 @@ import { DataSource } from "typeorm";
 import { UserService } from "../../../Application/Services/UserService";
 import { Request, Response } from "express";
 import { AppDataSource } from "../../../Infrastructure/Database/Config/Config";
+import { injectable, inject } from "tsyringe";
 
+@injectable()
 export class UserController {
-  private userService: UserService;
+  constructor(@inject(UserService) private userService: UserService) {}
 
-  constructor(private dataSource: DataSource) {
-    this.userService = new UserService(dataSource);
-  }
-
-  async register(req: Request, res: Response) {
+  register = async (req: Request, res: Response) => {
     try {
       const { username, password, passwordAgain, ownedShopIds } = req.body;
       if (!username || !password || !passwordAgain || !ownedShopIds) {
@@ -27,9 +25,7 @@ export class UserController {
       });
       res.status(200).json({ message: "User registered successfully" });
     } catch (e) {
-      res.send(e);
+      res.send("Error registering user");
     }
-  }
+  };
 }
-
-export const userController = new UserController(AppDataSource);
