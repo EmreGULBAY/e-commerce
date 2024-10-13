@@ -45,4 +45,25 @@ export class UserController {
       res.status(500).send("Error logging in");
     }
   };
+
+  updateUserPassword = async (req: Request, res: Response) => {
+    try {
+      const tokenCredentials = req.body.user;
+      if (!tokenCredentials) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      const { oldPassword, newPassword } = req.body;
+      if (!oldPassword || !newPassword) {
+        return res.status(400).json({ message: "All fields are required" });
+      }
+      await this.userService.updateUserPassword(
+        tokenCredentials.userId,
+        oldPassword,
+        newPassword
+      );
+      res.status(200).json({ success: true });
+    } catch (e) {
+      res.status(500).send("Error updating user password");
+    }
+  };
 }

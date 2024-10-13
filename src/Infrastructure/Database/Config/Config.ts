@@ -16,5 +16,6 @@ export const AppDataSource = new DataSource({
     encrypt: Boolean(process.env.DB_ENCRYPT === "true"),
     connectTimeout: Number(process.env.DB_CONNECTION_TIMEOUT),
   },
-  entities: ["src/Infrastructure/Database/Entities/**/*.ts"]
+  entities: ["src/Domain/Entities/**/*.ts"],
+  
 });

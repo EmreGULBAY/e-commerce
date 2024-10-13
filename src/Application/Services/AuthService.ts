@@ -1,6 +1,6 @@
 import { injectable } from "tsyringe";
 import jwt from "jsonwebtoken";
-import { User } from "../../Infrastructure/Database/Entities/User";
+import { User } from "../../Domain/Entities/User";
 import dotenv from "dotenv";
 
 dotenv.config();
