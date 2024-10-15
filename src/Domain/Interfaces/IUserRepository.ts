@@ -11,4 +11,5 @@ export interface IUserRepository {
   register: (user: UserCreateDTO) => Promise<void>;
   deleteUser: (id: string) => Promise<void>;
   updateUserPassword: (id: string, oldPassword: string, newPassword: string) => Promise<void>;
+  deactivateUser: (issuerId: string, userId: string) => Promise<void>;
 }

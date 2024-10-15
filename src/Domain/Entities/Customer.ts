@@ -1,18 +1,17 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
-  BeforeInsert,
-  BeforeUpdate,
   PrimaryColumn,
   OneToMany,
+  BeforeInsert,
+  BeforeUpdate,
 } from "typeorm";
+import { Address } from "./Address";
 import { createHash } from "crypto";
 import { v4 as uuidv4 } from "uuid";
-import { Address } from "./Address";
 
 @Entity()
-export class User {
+export class Customer {
   @PrimaryColumn("uuid")
   id!: string;
 
@@ -23,15 +22,18 @@ export class User {
   password!: string;
 
   @Column()
-  isActive!: boolean;
-
-  @Column("simple-array")
-  ownedShopIds!: string[];
+  email!: string;
 
   @Column()
-  role!: string;
+  phone!: string;
 
-  @OneToMany(() => Address, (address) => address.user)
+  @Column()
+  firstName!: string;
+
+  @Column()
+  lastName!: string;
+
+  @OneToMany(() => Address, (address) => address.customer)
   addresses!: Address[];
 
   @BeforeInsert()

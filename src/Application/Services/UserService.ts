@@ -61,6 +61,10 @@ export class UserService implements IUserRepository {
         throw new Error("User not found");
       }
 
+      if (!user.isActive) {
+        throw new Error("User is deactivated");
+      }
+
       const isPasswordValid = await comparePassword(
         user.password,
         loginObj.password
@@ -79,7 +83,7 @@ export class UserService implements IUserRepository {
   async findByUsername(username: string): Promise<User | null> {
     try {
       const user = await this.userRepository.findOne({
-        where: { username },
+        where: { username, isActive: true },
       });
       return user;
     } catch (e) {
@@ -89,7 +93,9 @@ export class UserService implements IUserRepository {
 
   async getAllUsers(): Promise<User[]> {
     try {
-      return await this.userRepository.find();
+      return await this.userRepository.find({
+        where: { isActive: true },
+      });
     } catch (e) {
       throw e;
     }
@@ -111,12 +117,30 @@ export class UserService implements IUserRepository {
     try {
       const user = await this.userRepository.findOne({ where: { id } });
       if (!user) throw new Error("User not found");
+      if (!user.isActive) throw new Error("User is deactivated");
       const isPasswordValid = await comparePassword(user.password, oldPassword);
       if (!isPasswordValid) {
         throw new Error("Invalid password");
       }
       user.password = newPassword;
       await this.userRepository.save(user);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async deactivateUser(issuerId: string, userId: string): Promise<void> {
+    try {
+      const issuer = await this.userRepository.findOne({
+        where: { id: issuerId },
+      });
+      if (!issuer) throw new Error("Unauthorized");
+      if (issuer.role.toLowerCase() !== "admin")
+        throw new Error("Unauthorized");
+      const user = await this.userRepository.findOne({ where: { id: userId } });
+      if (!user) throw new Error("User not found");
+      if (!user.isActive) throw new Error("User is already deactivated");
+      await this.userRepository.update(userId, { isActive: false });
     } catch (e) {
       throw e;
     }

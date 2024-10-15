@@ -66,4 +66,21 @@ export class UserController {
       res.status(500).send("Error updating user password");
     }
   };
+
+  deactivateUser = async (req: Request, res: Response) => {
+    try {
+      const tokenCredentials = req.body.user;
+      const userId = req.body.userId;
+      if (!tokenCredentials) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+      await this.userService.deactivateUser(tokenCredentials.userId, userId);
+      res.status(200).json({ success: true });
+    } catch (e) {
+      res.status(500).send("Error deactivating user");
+    }
+  };
 }

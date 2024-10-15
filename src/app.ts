@@ -4,7 +4,7 @@ import bodyParser from "body-parser";
 import {
   extractTokenMiddleware,
   verifyTokenMiddleware,
-} from "./Helpers/AuthHelpers";
+} from "./Interfaces/Http/MiddleWares/TokenMiddleware";
 import { AppDataSource } from "./Infrastructure/Database/Config/Config";
 import { container } from "tsyringe";
 import { UserController } from "./Interfaces/Http/Controllers/UserController";
