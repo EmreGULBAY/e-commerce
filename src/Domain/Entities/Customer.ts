@@ -9,9 +9,10 @@ import {
 import { Address } from "./Address";
 import { createHash } from "crypto";
 import { v4 as uuidv4 } from "uuid";
+import { IAuthenticatable } from "../Interfaces/IAuthenticatable";
 
 @Entity()
-export class Customer {
+export class Customer implements IAuthenticatable {
   @PrimaryColumn("uuid")
   id!: string;
 
@@ -32,6 +33,9 @@ export class Customer {
 
   @Column()
   lastName!: string;
+
+  @Column()
+  isActive!: boolean;
 
   @OneToMany(() => Address, (address) => address.customer)
   addresses!: Address[];

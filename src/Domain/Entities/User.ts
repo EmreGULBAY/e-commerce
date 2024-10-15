@@ -10,9 +10,11 @@ import {
 import { createHash } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 import { Address } from "./Address";
+import { IAuthenticatable } from "../Interfaces/IAuthenticatable";
+import { Shop } from "./Shop";
 
 @Entity()
-export class User {
+export class User implements IAuthenticatable {
   @PrimaryColumn("uuid")
   id!: string;
 
@@ -25,14 +27,26 @@ export class User {
   @Column()
   isActive!: boolean;
 
-  @Column("simple-array")
-  ownedShopIds!: string[];
-
   @Column()
   role!: string;
 
+  @Column()
+  email!: string;
+
+  @Column()
+  phone!: string;
+
+  @Column()
+  firstName!: string;
+
+  @Column()
+  lastName!: string;
+
   @OneToMany(() => Address, (address) => address.user)
   addresses!: Address[];
+
+  @OneToMany(() => Shop, (shop) => shop.owner)
+  ownedShops!: Shop[];
 
   @BeforeInsert()
   @BeforeUpdate()

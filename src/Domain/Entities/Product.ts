@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, ManyToMany, OneToMany } from "typeorm";
+import { Shop } from "./Shop";
+import { ShopProduct } from "./ShopProduct";
 
 type priceDTO = {
   price: number;
@@ -14,35 +16,11 @@ export class Product {
   name!: string;
 
   @Column()
-  description!: string;
-
-  @Column()
-  price!: string; //[{price: number, currency: string}]
-
-  @Column()
-  stock!: number;
-
-  @Column("simple-array")
-  images!: string[];
-
-  @Column()
-  category!: string;
-
-  @Column("simple-array")
-  tags!: string[];
-
-  @Column()
   brand!: string;
 
   @Column()
-  color!: string;
-
-  @Column()
-  size!: string;
-
-  @Column()
-  condition!: string;
-
-  @Column()
   sex?: string;
+
+  @OneToMany(() => ShopProduct, shopProduct => shopProduct.product)
+  shopProducts!: ShopProduct[];
 }

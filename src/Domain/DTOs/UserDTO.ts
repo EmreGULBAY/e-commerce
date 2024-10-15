@@ -11,9 +11,6 @@ export class UserCreateDTO {
   @MaxLength(20)
   password!: string;
 
-  @IsArray()
-  @IsString({ each: true })
-  ownedShopIds!: string[];
 }
 
 export class UserLoginDTO {
