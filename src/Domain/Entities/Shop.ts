@@ -8,7 +8,8 @@ import {
   OneToMany,
   ManyToOne,
   ManyToMany,
-  JoinTable
+  JoinTable,
+  JoinColumn
 } from "typeorm";
 import { User } from "./User";
 import { Product } from "./Product";
@@ -29,6 +30,7 @@ export class Shop {
   ownerId!: string;
 
   @ManyToOne(() => User, (user) => user.ownedShops)
+  @JoinColumn({ name: "ownerId" })
   owner!: User;
 
   @OneToMany(() => ShopProduct, shopProduct => shopProduct.shop)

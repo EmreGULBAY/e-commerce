@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from "typeorm";
 import { Shop } from "./Shop";
 import { Product } from "./Product";
 
@@ -7,10 +13,18 @@ export class ShopProduct {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
+  @Column()
+  shopId!: string;
+
+  @Column()
+  productId!: string;
+
   @ManyToOne(() => Shop, (shop) => shop.shopProducts)
+  @JoinColumn({ name: "shopId" })
   shop!: Shop;
 
   @ManyToOne(() => Product, (product) => product.shopProducts)
+  @JoinColumn({ name: "productId" })
   product!: Product;
 
   @Column()
@@ -21,9 +35,6 @@ export class ShopProduct {
 
   @Column()
   currency!: string;
-
-  @Column()
-  stock!: number;
 
   @Column("simple-array")
   images!: string[];
