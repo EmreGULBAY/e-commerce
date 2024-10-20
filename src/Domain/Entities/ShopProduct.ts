@@ -4,9 +4,11 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from "typeorm";
 import { Shop } from "./Shop";
 import { Product } from "./Product";
+import { Coupon } from "./Coupon";
 
 @Entity("shop_products")
 export class ShopProduct {
@@ -56,4 +58,7 @@ export class ShopProduct {
 
   @Column({ nullable: true })
   sex?: string;
+
+  @OneToMany(() => Coupon, (coupon) => coupon.shopProduct)
+  coupons!: Coupon[];
 }

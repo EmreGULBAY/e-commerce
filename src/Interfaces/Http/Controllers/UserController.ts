@@ -10,8 +10,8 @@ export class UserController {
 
   register = async (req: Request, res: Response) => {
     try {
-      const { username, password, passwordAgain } = req.body;
-      if (!username || !password || !passwordAgain) {
+      const { username, password, passwordAgain, email, phone, firstName, lastName } = req.body;
+      if (!username || !password || !passwordAgain || !email || !phone || !firstName || !lastName) {
         return res.status(400).json({ message: "All fields are required" });
       }
       if (password !== passwordAgain) {
@@ -21,6 +21,10 @@ export class UserController {
       await this.userService.register({
         username,
         password,
+        email,
+        phone,
+        firstName,
+        lastName,
       });
       res.status(200).json({ success: true });
     } catch (e) {

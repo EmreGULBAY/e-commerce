@@ -18,9 +18,6 @@ export class Product {
   @Column()
   brand!: string;
 
-  @Column()
-  sex?: string;
-
   @OneToMany(() => ShopProduct, shopProduct => shopProduct.product)
   shopProducts!: ShopProduct[];
 }

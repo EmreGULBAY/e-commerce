@@ -4,33 +4,43 @@ import {
   PrimaryColumn,
   ManyToOne,
   ManyToMany,
+  JoinColumn,
 } from "typeorm";
 import { ICoupon } from "../Interfaces/ICoupon";
 import { ShopProduct } from "./ShopProduct";
+import { Customer } from "./Customer";
 
 @Entity()
 export class Coupon implements ICoupon {
-    @PrimaryColumn("uuid")
-    id!: string;
+  @PrimaryColumn("uuid")
+  id!: string;
 
-    @Column()
-    code!: string;
+  @Column()
+  code!: string;
 
-    @Column()
-    discount!: number;
-    
-    @Column()
-    startDate!: Date;
+  @Column()
+  discount!: number;
 
-    @Column()
-    endDate!: Date;
+  @Column()
+  startDate!: Date;
 
-    @Column()
-    minLimit!: number;
-//!
-    @ManyToOne(() => ShopProduct, (product) => product.id)
-    appliableProduct?: ShopProduct;
+  @Column()
+  endDate!: Date;
 
-    @ManyToMany(() => ShopProduct, (product) => product.id)
-    appliableProducts?: ShopProduct[];
+  @Column()
+  minLimit!: number;
+
+  @Column({ nullable: true })
+  customerId?: string;
+
+  @ManyToMany(() => Customer, (customer) => customer.coupons)
+  @JoinColumn({ name: "customerId" })
+  customers?: Customer[];
+
+  @Column({ nullable: true })
+  shopProductId?: string;
+
+  @ManyToOne(() => ShopProduct, (shopProduct) => shopProduct.coupons)
+  @JoinColumn({ name: "shopProductId" })
+  shopProduct?: ShopProduct;
 }

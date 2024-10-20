@@ -1,4 +1,13 @@
-import { IsArray, IsBoolean, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import {
+  IsArray,
+  IsBoolean,
+  IsEmail,
+  IsOptional,
+  IsPhoneNumber,
+  IsString,
+  MaxLength,
+  MinLength,
+} from "class-validator";
 
 export class UserCreateDTO {
   @IsString()
@@ -11,6 +20,23 @@ export class UserCreateDTO {
   @MaxLength(20)
   password!: string;
 
+  @IsString()
+  @IsEmail()
+  email!: string;
+
+  @IsString()
+  @IsPhoneNumber()
+  phone!: string;
+
+  @IsString()
+  @MinLength(3)
+  @MaxLength(20)
+  firstName!: string;
+
+  @IsString()
+  @MinLength(3)
+  @MaxLength(20)
+  lastName!: string;
 }
 
 export class UserLoginDTO {
